@@ -44,4 +44,6 @@ private:
 
 	double TargetIntervalSec = 1.0 / 60.0; // 60Hz 默认
 	double LastComputeTimeSec = 0.0;
+
+	FFPHandAnimDataOutput CachedLastOutput;
 };

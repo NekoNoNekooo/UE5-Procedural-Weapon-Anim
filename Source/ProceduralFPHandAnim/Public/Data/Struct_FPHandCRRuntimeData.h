@@ -78,11 +78,12 @@ public:
 	
 	double TimeSec = 0.0;
 	float  DeltaTime = 0.f;
+	float UpdateDuration = 0.f;
 
 	FVector Velocity = FVector::ZeroVector;
 	FVector2D LookInput = FVector2D::ZeroVector;
 	FRotator ControlRotation = FRotator::ZeroRotator;
-	
+	FTransform ActorTransform;
 };
 
 USTRUCT(BlueprintType)

@@ -136,5 +136,7 @@ void FFPHandAnimWorker::Compute(const FFPHandAnimDataInput& In, FFPHandAnimDataO
 		return;
 	}
 
-	LocalTemplate->Compute(In, Out);
+	LocalTemplate->Compute(In, Out, CachedLastOutput);
+
+	CachedLastOutput = Out;
 }
