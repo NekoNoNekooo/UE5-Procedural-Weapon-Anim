@@ -144,7 +144,7 @@ private:
 	float LocCurveLength = 0.f;
 
 private:
-	//MultiThread Calculator
+	//MultiThread Weapon Lag Anim Calculator
 	TUniquePtr<FFPHandAnimWorker> Worker;
 	FRunnableThread* Thread = nullptr;
 	

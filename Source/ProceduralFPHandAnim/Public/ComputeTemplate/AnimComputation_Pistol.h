@@ -75,8 +75,8 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 		const float LookPitchSpeed = In.LookRotSpeed.Y;
 		
 		const float GlobalRotRoll = FMath::Clamp(LookYawSpeed * 0.01f,-3.f, 3.f);
-		const float GlobalRotYaw = FMath::Clamp(LookYawSpeed * 0.01f,-2.f, 2.f);
-		const float GlobalRotPitch  = -FMath::Clamp(LookPitchSpeed * 0.02f,-5.f, 5.f);
+		const float GlobalRotYaw = FMath::Clamp(LookYawSpeed * 0.01f,-4.f, 4.f);
+		const float GlobalRotPitch  = -FMath::Clamp(LookPitchSpeed * 0.02f,-3.f, 3.f) - (NormalAim * 5.0f);
 
 		const float NewRoll = UKismetMathLibrary::FloatSpringInterp(
 					CachedLastOutput.Add_CenterRotationWS.Pitch,
@@ -85,7 +85,7 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 					400.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime
-					0.6f,                // Mass
+					0.4f,                // Mass
 					5.f                 // TargetVelocityAmount
 				);
 
@@ -107,62 +107,54 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 					400.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime
-					0.6f,                // Mass
+					0.4f,                // Mass
 					5.f                 // TargetVelocityAmount
 				);
 
 
 		
-		const FRotator TargetRot(
-			NewRoll,
-			GlobalRotYaw,
-			GlobalRotPitch
-		);
+		const FRotator TargetRot(NewRoll,NewYaw,NewPitch);
 
 		Out.Add_CenterRotationWS = TargetRot;
 
-		/**Out.Add_CenterRotationWS = FMath::RInterpTo(
-			CachedLastOutput.Add_CenterRotationWS,
-			TargetRot,
-			In.DeltaTime,
-			30.f
-		);*/
-		
-		/**Final Spring Interp
-		const float CurYaw = Out.Add_CenterLocationOffset.X;
+		const float TargetLocLR = FMath::Clamp(-LookYawSpeed   * 0.0020f, -4.f, 4.f); // 左右
+		const float TargetLocTB = FMath::Clamp( LookPitchSpeed * 0.0015f, -4.f, 4.f) + (NormalAim * 5); // 上下
 
-		const float NewYaw = UKismetMathLibrary::FloatSpringInterp(
-			CurYaw,
-			In.LookInput.X * 0.1f,
-			HandOffsetSS_Yaw,   // 需要持久化
-			400.f,              // Stiffness
-			0.75f,              // CriticalDampingFactor
-			In.DeltaTime,                 // DeltaTime
-			1.f,                // Mass
-			2.f                 // TargetVelocityAmount
+		const float NewLocLR = UKismetMathLibrary::FloatSpringInterp(
+			CachedLastOutput.Add_CenterLocationOffset.X, // 你需要在 Output 里加这个字段，或用已有 loc
+			TargetLocLR,
+			GlobalLocOffsetSS_LR,
+			200.f,    // LocStiffness（比旋转低）
+			0.9f,     // LocDamping（更稳）
+			In.DeltaTime,
+			1.0f,
+			1.0f      //
 		);
 
-		const float TargetPitch = In.LookInput.Y * 0.5f;
-		const float NewPitch = UKismetMathLibrary::FloatSpringInterp(
-			NewYaw,             // ⚠️ 注意：这里是“第一个 spring 的输出”作为 Current（按图）
-			TargetPitch,
-			HandOffsetSS_Pitch,
-			300.f,              // Stiffness
-			0.85f,              // CriticalDampingFactor
+		const float NewLocTB = UKismetMathLibrary::FloatSpringInterp(
+			CachedLastOutput.Add_CenterLocationOffset.Z, // 你需要在 Output 里加这个字段，或用已有 loc
+			TargetLocTB,
+			GlobalLocOffsetSS_TB,
+			200.f,    // LocStiffness（比旋转低）
+			0.9f,     // LocDamping（更稳）
 			In.DeltaTime,
-			1.f,                // Mass
-			2.f                 // TargetVelocityAmount
+			1.0f,
+			1.0f      // 位置一般不需要 TVA，避免“冲”
 		);
 
-		Out.Add_CenterLocationOffset.X = NewYaw;
-		Out.Add_CenterLocationOffset.Z = NewPitch;
-		Out.Add_CenterLocationOffset.Y = 0.f;  */
+		const FVector TargetLoc(NewLocLR, 0.f, NewLocTB);
+		Out.Add_CenterLocationOffset = TargetLoc;
 	}
 
+private:
+
+	FVector2f SmoothedRotSpeed = FVector2f::ZeroVector;
+	
 	mutable FFloatSpringState GlobalRotOffsetSS_Yaw;
 	mutable FFloatSpringState GlobalRotOffsetSS_Roll;
 	mutable FFloatSpringState GlobalRotOffsetSS_Pitch;
 	
-	mutable FFloatSpringState HandOffsetSS_Yaw;
-	mutable FFloatSpringState HandOffsetSS_Pitch;
+	mutable FFloatSpringState GlobalLocOffsetSS_LR;
+	mutable FFloatSpringState GlobalLocOffsetSS_TB;
+
 };

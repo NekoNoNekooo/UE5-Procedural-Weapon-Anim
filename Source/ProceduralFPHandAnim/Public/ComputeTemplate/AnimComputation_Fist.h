@@ -74,7 +74,7 @@ struct FAnimComputation_Fist : public IFPHandAnimComputeTemplate
 		const float LookYawSpeed   = In.LookRotSpeed.X; // deg/s
 		const float LookPitchSpeed = In.LookRotSpeed.Y;
 		
-		const float GlobalRotRoll = FMath::Clamp(LookYawSpeed * 0.01f,-3.f, 3.f);
+		const float GlobalRotRoll = FMath::Clamp(LookYawSpeed * 0.01f,-1.f, 1.f);
 		const float GlobalRotYaw = FMath::Clamp(LookYawSpeed * 0.01f,-2.f, 2.f);
 		const float GlobalRotPitch  = -FMath::Clamp(LookPitchSpeed * 0.02f,-5.f, 5.f);
 

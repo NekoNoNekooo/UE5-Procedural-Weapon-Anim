@@ -8,6 +8,7 @@
 #include "Struct_CHTParam_ProcedualFPHand.h"
 #include "Struct_FPHandCRStaticData.h"
 #include "Engine/DataAsset.h"
+#include "ProxyTable.h"
 #include "DA_FPHandAnimConfig.generated.h"
 
 /**
@@ -35,6 +36,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UAnimSequence> Pose;
 
+	/** ADS Pose */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UAnimSequence> ADSPose;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TObjectPtr<UProxyTable> HandAnimProxyTable;
+	
 	/** 手部动画模式 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EFPHandAnimMode HandAnimMode;
@@ -42,6 +50,8 @@ public:
 	/** Hand Location Offset (Right) - Camera Space */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Offset")
 	FVector HandOffsetR = FVector::ZeroVector;
+
+
 
 	/** Hand Location Offset (Left) - Camera Space */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Offset")

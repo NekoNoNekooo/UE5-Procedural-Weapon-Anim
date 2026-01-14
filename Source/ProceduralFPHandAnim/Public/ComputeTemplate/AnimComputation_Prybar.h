@@ -52,8 +52,8 @@ struct FAnimComputation_Prybar : public IFPHandAnimComputeTemplate
 
 		Out.Add_CenterRotationWS = TargetRot;
 		
-		const float TargetLocLR = FMath::Clamp(-LookYawSpeed   * 0.01f, -4.f, 4.f); // 左右
-		const float TargetLocTB = FMath::Clamp( LookPitchSpeed * 0.01f, -4.f, 4.f); // 上下
+		const float TargetLocLR = FMath::Clamp(-LookYawSpeed   * 0.01f, -5.f, 5.f); // 左右
+		const float TargetLocTB = FMath::Clamp( LookPitchSpeed * 0.01f, -5.f, 5.f); // 上下
 
 		const float NewLocLR = UKismetMathLibrary::FloatSpringInterp(
 			CachedLastOutput.Add_CenterLocationOffset.X, // 你需要在 Output 里加这个字段，或用已有 loc

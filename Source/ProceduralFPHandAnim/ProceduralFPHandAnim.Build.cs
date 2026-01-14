@@ -25,7 +25,7 @@ public class ProceduralFPHandAnim : ModuleRules
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
-				"Core", "Engine",
+				"Core", "Engine","Chooser", "ProxyTable"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
