@@ -107,7 +107,7 @@ FFPHandAnimDataInput UAC_ProceduralFPHandManager::GetInputData_Implementation(fl
 	In.DeltaTime = DeltaTime;
 
 	// 1) LookInput（你已有）
-	In.LookInput = LookInput;
+	In.LookRotSpeed = LookInput;
 
 	// 2) Owner / Pawn
 	AActor* OwnerActor = GetOwner();

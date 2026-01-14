@@ -42,8 +42,17 @@ private:
 	FFPHandAnimDataOutput* LatestOutputPtr = nullptr;
 	bool bHasOutput = false;
 
-	double TargetIntervalSec = 1.0 / 60.0; // 60Hz 默认
+	double TargetIntervalSec = 1.0 / 30.0; // 60Hz 默认
 	double LastComputeTimeSec = 0.0;
 
 	FFPHandAnimDataOutput CachedLastOutput;
+
+	double AccumulatedSec = 0.0;
+	double LastPublishTimeSec = 0.0;
+	float  FixedStepSec = 1.f / 30.f;
+
+	bool bHasPrevControlRot = false;
+	FRotator PrevControlRot = FRotator::ZeroRotator;
+
+	FVector2D SmoothedRotSpeed = FVector2D::ZeroVector;
 };

@@ -55,6 +55,18 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Runtime")
 	float RotInterpSpeed = 10.f;
 	
+	UPROPERTY()
+	FRotator CurrentControllerRot = FRotator::ZeroRotator;
+
+	UPROPERTY()
+	FRotator LastControllerRot = FRotator::ZeroRotator;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Runtime")
+	FRotator SmoothedDeltaRot = FRotator::ZeroRotator;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Runtime")
+	FRotator RotSpeed = FRotator::ZeroRotator;
+	
 	UFUNCTION(BlueprintCallable)
 	FFPHandAnimDataInput GetInputData(float DeltaTime);
 

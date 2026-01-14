@@ -81,7 +81,7 @@ public:
 	float UpdateDuration = 0.f;
 
 	FVector Velocity = FVector::ZeroVector;
-	FVector2D LookInput = FVector2D::ZeroVector;
+	FVector2D LookRotSpeed = FVector2D::ZeroVector;
 	FRotator ControlRotation = FRotator::ZeroRotator;
 	FTransform ActorTransform;
 };

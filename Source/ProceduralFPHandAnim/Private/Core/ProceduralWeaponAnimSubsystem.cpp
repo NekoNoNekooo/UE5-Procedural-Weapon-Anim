@@ -2,6 +2,10 @@
 
 #include "Core/ProceduralWeaponAnimSubsystem.h"
 
+#include "ComputeTemplate/AnimComputation_CommonItemOneHand.h"
+#include "ComputeTemplate/AnimComputation_Fist.h"
+#include "ComputeTemplate/AnimComputation_Pistol.h"
+#include "ComputeTemplate/AnimComputation_Prybar.h"
 #include "ComputeTemplate/AnimComputation_Rifle.h"
 #include "Curves/CurveVector.h"
 #include "GameFramework/Character.h"
@@ -20,14 +24,30 @@ void UProceduralWeaponAnimSubsystem::Deinitialize()
 
 void UProceduralWeaponAnimSubsystem::Tick(float DeltaTime)
 {
+	if (OwnerPlayerController != nullptr)
+	{
+		LastControllerRot = CurrentControllerRot;
+		CurrentControllerRot = OwnerPlayerController->GetControlRotation();
+		FRotator DeltaRot = (CurrentControllerRot - LastControllerRot);
+		RotSpeed = DeltaRot * (1.f / DeltaTime);
+		SmoothedDeltaRot = FMath::RInterpTo(SmoothedDeltaRot, CurrentControllerRot-LastControllerRot,DeltaTime,30.f);
+	}
+	
 	if (bIsHandAnimEnabled && Thread)
 	{
 		Worker->PushInput(GetInputData(DeltaTime));
 
-		FFPHandAnimDataOutput OutputData;
-		if (Worker->TryPopOutput(OutputData))
+		FFPHandAnimDataOutput Latest;
+		bool bHas = false;
+		FFPHandAnimDataOutput Temp;
+		while (Worker->TryPopOutput(Temp))
 		{
-			AdditiveAnimDataOutput = OutputData;
+			Latest = Temp;
+			bHas = true;
+		}
+		if (bHas)
+		{
+			AdditiveAnimDataOutput = Latest;
 		}
 
 		UpdateDuration = UpdateDuration + DeltaTime;
@@ -182,7 +202,9 @@ FFPHandAnimDataInput UProceduralWeaponAnimSubsystem::GetInputData(float DeltaTim
 	In.DeltaTime = DeltaTime;
 
 	// 1) LookInput
-	In.LookInput = LookInput;
+
+	In.LookRotSpeed.X = RotSpeed.Yaw;
+	In.LookRotSpeed.Y = RotSpeed.Pitch;
 
 	AActor* OwnerActor = OwnerCharacter.Get();
 	if (!IsValid(OwnerActor))
@@ -242,7 +264,8 @@ void UProceduralWeaponAnimSubsystem::OnConfigChanged(UDA_FPHandAnimConfig* InCon
 	{
 		case EFPHandAnimTemplate::Fist:
 			{
-				break;
+				auto Fist = MakeShared<FAnimComputation_Fist, ESPMode::ThreadSafe>();
+				NewTemplate = Fist;
 			}
 		case EFPHandAnimTemplate::Rifle:
 			{
@@ -252,14 +275,20 @@ void UProceduralWeaponAnimSubsystem::OnConfigChanged(UDA_FPHandAnimConfig* InCon
 			}
 		case EFPHandAnimTemplate::Pistol:
 			{
+				auto Pistol = MakeShared<FAnimComputation_Pistol, ESPMode::ThreadSafe>();
+				NewTemplate = Pistol;
 				break;
 			}
 		case EFPHandAnimTemplate::Prybar:
 			{
+				auto Prybar = MakeShared<FAnimComputation_Prybar, ESPMode::ThreadSafe>();
+				NewTemplate = Prybar;
 				break;
 			}
 		case EFPHandAnimTemplate::CommonItemOneHand:
 			{
+				auto CIOH = MakeShared<FAnimComputation_CommonItemOneHand, ESPMode::ThreadSafe>();
+				NewTemplate = CIOH;
 				break;
 			}
 		default: 
