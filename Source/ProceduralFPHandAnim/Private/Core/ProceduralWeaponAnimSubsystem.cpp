@@ -181,11 +181,6 @@ bool UProceduralWeaponAnimSubsystem::StopAndDeinit()
 	return false;
 }
 
-void UProceduralWeaponAnimSubsystem::SetLookInput(FVector2D InLookInput)
-{
-	LookInput = InLookInput;
-}
-
 FFPHandAnimDataInput UProceduralWeaponAnimSubsystem::GetInputData(float DeltaTime)
 {
 	FFPHandAnimDataInput In;

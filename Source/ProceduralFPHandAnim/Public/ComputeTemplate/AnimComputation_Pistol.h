@@ -81,7 +81,7 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 		const float NewRoll = UKismetMathLibrary::FloatSpringInterp(
 					CachedLastOutput.Add_CenterRotationWS.Pitch,
 					GlobalRotRoll,
-					GlobalRotOffsetSS_Roll,   // 需要持久化
+					GlobalRotOffsetSS_Roll,
 					400.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime
@@ -92,7 +92,7 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 		const float NewYaw = UKismetMathLibrary::FloatSpringInterp(
 					CachedLastOutput.Add_CenterRotationWS.Yaw,
 					GlobalRotYaw,
-					GlobalRotOffsetSS_Yaw,   // 需要持久化
+					GlobalRotOffsetSS_Yaw,
 					400.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime
@@ -103,7 +103,7 @@ struct FAnimComputation_Pistol : public IFPHandAnimComputeTemplate
 		const float NewPitch = UKismetMathLibrary::FloatSpringInterp(
 					CachedLastOutput.Add_CenterRotationWS.Roll,
 					GlobalRotPitch,
-					GlobalRotOffsetSS_Pitch,   // 需要持久化
+					GlobalRotOffsetSS_Pitch,
 					400.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime

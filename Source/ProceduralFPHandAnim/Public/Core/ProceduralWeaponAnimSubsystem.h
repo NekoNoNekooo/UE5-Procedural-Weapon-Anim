@@ -45,9 +45,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool StopAndDeinit();
-
-	UFUNCTION(BlueprintCallable)
-	void SetLookInput(FVector2D InLookInput);
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Runtime")
 	float LocInterpSpeed = 10.f;
@@ -146,12 +143,11 @@ private:
 	float SwayPhase = 0.f;
 	float LocCurveLength = 0.f;
 
-	//MultiThread
+private:
+	//MultiThread Calculator
 	TUniquePtr<FFPHandAnimWorker> Worker;
 	FRunnableThread* Thread = nullptr;
-
-
-private:
+	
 	bool bIsHandAnimEnabled;
 	
 	UPROPERTY()
@@ -163,9 +159,10 @@ private:
 	float UpdateDuration = 0.f;
 
 	FFPHandAnimDataOutput SmoothHandAnimOutput(
-	const FFPHandAnimDataOutput& CurrentSmooth,
-	const FFPHandAnimDataOutput& TargetRaw,
-	float DeltaTime,
-	float InLocInterpSpeed,
-	float InRotInterpSpeed);
+		const FFPHandAnimDataOutput& CurrentSmooth,
+		const FFPHandAnimDataOutput& TargetRaw,
+		float DeltaTime,
+		float InLocInterpSpeed,
+		float InRotInterpSpeed
+	);
 };
