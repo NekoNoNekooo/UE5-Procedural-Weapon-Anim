@@ -63,6 +63,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Runtime")
 	FRotator RotSpeed = FRotator::ZeroRotator;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Runtime")
+	bool bLockIKCameraSpace;
 	
 	UFUNCTION(BlueprintCallable)
 	FFPHandAnimDataInput GetInputData(float DeltaTime);

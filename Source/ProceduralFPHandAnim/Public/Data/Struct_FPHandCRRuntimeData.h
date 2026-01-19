@@ -79,6 +79,7 @@ public:
 	double TimeSec = 0.0;
 	float  DeltaTime = 0.f;
 	float UpdateDuration = 0.f;
+	bool bLockIKInCameraSpace = false;
 
 	FVector Velocity = FVector::ZeroVector;
 	FVector2D LookRotSpeed = FVector2D::ZeroVector;

@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "Enum_FPHandAnimMode.h"
 #include "Enum_FPHandAnimTemplate.h"
-#include "Struct_CHTParam_ProcedualFPHand.h"
+#include "Struct_PWA_CHTParam.h"
 #include "Struct_FPHandCRStaticData.h"
 #include "Engine/DataAsset.h"
 #include "ProxyTable.h"
 #include "DA_FPHandAnimConfig.generated.h"
 
+class UChooserTable;
+class UCurveVector;
 /**
  * 
  */
@@ -41,7 +43,7 @@ public:
 	TObjectPtr<UAnimSequence> ADSPose;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TObjectPtr<UProxyTable> HandAnimProxyTable;
+	TObjectPtr<UChooserTable> HandAnimChooserTable;
 	
 	/** 手部动画模式 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

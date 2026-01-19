@@ -6,6 +6,7 @@ struct FAnimComputation_Rifle : public IFPHandAnimComputeTemplate
 {
 	void Compute(const FFPHandAnimDataInput& In, FFPHandAnimDataOutput& Out, FFPHandAnimDataOutput CachedLastOutput) const override
 	{
+		bool ADS = In.bLockIKInCameraSpace;
 		const FRotator ControlRot = In.ControlRotation;
 		const float Pitch = ControlRot.Pitch;
 		float SelectedPitch;
@@ -17,13 +18,17 @@ struct FAnimComputation_Rifle : public IFPHandAnimComputeTemplate
 		{
 			SelectedPitch = Pitch;
 		}
-		
-		const float NormalAim = FMath::GetMappedRangeValueClamped(
+
+		if (ADS)
+		{
+			return;
+		}
+	
+		float NormalAim = FMath::GetMappedRangeValueClamped(
 			FVector2D(80.f, -80.f),
 			FVector2D(-1.f, 1.f),
 			SelectedPitch
 		);
-
 
 		// Hand Root Offset
 		const float LookYawSpeed   = In.LookRotSpeed.X; // deg/s
@@ -66,7 +71,7 @@ struct FAnimComputation_Rifle : public IFPHandAnimComputeTemplate
 					2.f                 // TargetVelocityAmount
 				);
 
-		const FRotator TargetRot(NewRoll, NewYaw,NewPitch);
+		FRotator TargetRot(NewRoll, NewYaw,NewPitch);
 
 		Out.Add_CenterRotationWS = TargetRot;
 		

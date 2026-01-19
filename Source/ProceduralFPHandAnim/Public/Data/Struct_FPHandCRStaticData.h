@@ -40,4 +40,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Offset")
 	float SnapLeftHandToRightHand = 0.f;
+	
+	/** Overall Additive Hand Anim Weight */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Offset")
+    float AdditiveHandAnimWeight = 1.f;
 };

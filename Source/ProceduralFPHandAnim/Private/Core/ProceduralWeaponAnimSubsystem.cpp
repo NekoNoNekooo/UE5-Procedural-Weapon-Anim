@@ -195,6 +195,7 @@ FFPHandAnimDataInput UProceduralWeaponAnimSubsystem::GetInputData(float DeltaTim
 	
 	In.TimeSec = World->GetTimeSeconds();
 	In.DeltaTime = DeltaTime;
+	In.bLockIKInCameraSpace = bLockIKCameraSpace;
 
 	// 1) LookInput
 
