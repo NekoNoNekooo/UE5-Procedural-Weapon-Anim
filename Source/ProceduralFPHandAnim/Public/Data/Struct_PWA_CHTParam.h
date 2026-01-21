@@ -13,7 +13,7 @@ struct FCHTInput_PWA
 public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	bool bIsADS;
+	bool bIsADS = false;
 };
 
 USTRUCT(BlueprintType)
@@ -27,11 +27,11 @@ public:
 	FFPHandCRStaticData StaticHandData;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float BlendTime;
+	float BlendTime = 0.2f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TObjectPtr<UBlendProfile> BlendProfile;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float PlayRate;
+	float PlayRate = 1.0f;
 };
