@@ -19,17 +19,17 @@ struct FAnimComputation_Rifle : public IFPHandAnimComputeTemplate
 			SelectedPitch = Pitch;
 		}
 
-		if (ADS)
-		{
-			return;
-		}
-	
 		float NormalAim = FMath::GetMappedRangeValueClamped(
 			FVector2D(80.f, -80.f),
 			FVector2D(-1.f, 1.f),
 			SelectedPitch
 		);
-
+		
+		if (ADS)
+		{
+			NormalAim = 0.f;
+		}
+		
 		// Hand Root Offset
 		const float LookYawSpeed   = In.LookRotSpeed.X; // deg/s
 		const float LookPitchSpeed = In.LookRotSpeed.Y;
@@ -42,10 +42,10 @@ struct FAnimComputation_Rifle : public IFPHandAnimComputeTemplate
 					CachedLastOutput.Add_CenterRotationWS.Pitch,
 					GlobalRotRoll,
 					GlobalRotOffsetSS_Roll,   // 需要持久化
-					300.f,              // Stiffness
+					200.f,              // Stiffness
 					0.4f,              // CriticalDampingFactor
 					In.DeltaTime,                 // DeltaTime
-					0.8f,                // Mass
+					1.f,                // Mass
 					5.f                 // TargetVelocityAmount
 				);
 
